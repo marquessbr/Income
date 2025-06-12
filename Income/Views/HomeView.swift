@@ -10,12 +10,35 @@ import SwiftUI
 struct HomeView: View {
     
     @State private var transactions: [Transaction] = [
-        Transaction(title: "Apple", type: .expense, amount: 5.00, date: Date()),
+        Transaction(title: "Apple", type: .income, amount: 5.00, date: Date()),
         Transaction(title: "Bananas", type: .income, amount: 10.00, date: Date()),
     ]
     @State private var showAddTransactionView: Bool = false
     @State private var transaction: Transaction?
     @State private var transactionToEdit: Transaction?
+    
+    private var expense: String {
+        let sumExpense: Double = transactions.filter({$0.type == .expense}).reduce(0, {$0 + $1.amount})
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        return numberFormatter.string(from: sumExpense as NSNumber) ?? "$0.00"
+    }
+    
+    private var income: String {
+        let sumIncome: Double = transactions.filter({$0.type == .income}).reduce(0, {$0 + $1.amount})
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        return numberFormatter.string(from: sumIncome as NSNumber) ?? "$0.00"
+    }
+
+    private var total: String {
+        let sumExpense: Double = transactions.filter({$0.type == .expense}).reduce(0, {$0 + $1.amount})
+        let sumIncome: Double = transactions.filter({$0.type == .income}).reduce(0, {$0 + $1.amount})
+        var total: Double = sumIncome - sumExpense
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        return numberFormatter.string(from: total as NSNumber) ?? "$0.00"
+    }
     
     fileprivate func FloatingButton() -> some View {
         VStack {
@@ -41,11 +64,11 @@ struct HomeView: View {
                 .fill(Color.primaryLightGreen)
             VStack(alignment: .leading, spacing: 15) {
                 HStack {
-                    VStack {
+                    VStack(alignment: .leading) {
                         Text("BALANCE")
-                            .font(.caption)
+                            .font(.system(size: 30, weight: .semibold))
                             .foregroundStyle(Color.white)
-                        Text("$2")
+                        Text("\(total)")
                             .font(.system(size: 40, weight: .light))
                             .foregroundStyle(.white)
                     }
@@ -57,7 +80,7 @@ struct HomeView: View {
                         Text("Expense")
                             .font(.system(size: 15, weight: .semibold))
                             .foregroundStyle(.white)
-                        Text("$22")
+                        Text("\(expense)")
                             .font(.system(size: 15, weight: .regular))
                             .foregroundStyle(.white)
                     }
@@ -65,7 +88,7 @@ struct HomeView: View {
                         Text("Income")
                             .font(.system(size: 15, weight: .semibold))
                             .foregroundStyle(.white)
-                        Text("$22")
+                        Text("\(income)")
                             .font(.system(size: 15, weight: .regular))
                             .foregroundStyle(.white)
                     }
@@ -92,6 +115,7 @@ struct HomeView: View {
                                 TransactionView(transaction: transaction)
                             })
                         }
+                        .onDelete(perform: delete)
                     }
                     .scrollContentBackground(.hidden)
                 }
@@ -115,6 +139,11 @@ struct HomeView: View {
                 }
             }
         }
+    }
+    
+    func delete(at offsets: IndexSet) {
+        transactions.remove(atOffsets: offsets)
+        
     }
 }
 
