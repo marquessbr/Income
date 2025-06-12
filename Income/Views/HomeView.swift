@@ -18,8 +18,6 @@ struct HomeView: View {
     @State private var transaction: Transaction?
     @State private var transactionToEdit: Transaction?
     
-    @State private var nTotal: Double = 0.00
-    
     private var expense: String {
         let sumExpense: Double = transactions.filter({$0.type == .expense}).reduce(0, {$0 + $1.amount})
         let numberFormatter = NumberFormatter()
@@ -38,10 +36,15 @@ struct HomeView: View {
         let sumExpense: Double = transactions.filter({$0.type == .expense}).reduce(0, {$0 + $1.amount})
         let sumIncome: Double = transactions.filter({$0.type == .income}).reduce(0, {$0 + $1.amount})
         let total: Double = sumIncome - sumExpense
-        nTotal = total
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
         return numberFormatter.string(from: total as NSNumber) ?? "$0.00"
+    }
+    
+    private var nTotal: Double {
+        let sumExpense: Double = transactions.filter({$0.type == .expense}).reduce(0, {$0 + $1.amount})
+        let sumIncome: Double = transactions.filter({$0.type == .income}).reduce(0, {$0 + $1.amount})
+        return sumIncome - sumExpense
     }
     
     fileprivate func FloatingButton() -> some View {
