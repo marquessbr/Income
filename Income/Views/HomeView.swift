@@ -10,12 +10,15 @@ import SwiftUI
 struct HomeView: View {
     
     @State private var transactions: [Transaction] = [
-        Transaction(title: "Apple", type: .income, amount: 5.00, date: Date()),
+        Transaction(title: "Apple", type: .expense, amount: 5.00, date: Date()),
         Transaction(title: "Bananas", type: .income, amount: 10.00, date: Date()),
+        Transaction(title: "Bananas", type: .expense, amount: 10.00, date: Date()),
     ]
     @State private var showAddTransactionView: Bool = false
     @State private var transaction: Transaction?
     @State private var transactionToEdit: Transaction?
+    
+    @State private var nTotal: Double = 0.00
     
     private var expense: String {
         let sumExpense: Double = transactions.filter({$0.type == .expense}).reduce(0, {$0 + $1.amount})
@@ -34,7 +37,8 @@ struct HomeView: View {
     private var total: String {
         let sumExpense: Double = transactions.filter({$0.type == .expense}).reduce(0, {$0 + $1.amount})
         let sumIncome: Double = transactions.filter({$0.type == .income}).reduce(0, {$0 + $1.amount})
-        var total: Double = sumIncome - sumExpense
+        let total: Double = sumIncome - sumExpense
+        nTotal = total
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
         return numberFormatter.string(from: total as NSNumber) ?? "$0.00"
@@ -62,35 +66,40 @@ struct HomeView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 8)
                 .fill(Color.primaryLightGreen)
-            VStack(alignment: .leading, spacing: 15) {
+            VStack(alignment: .leading, spacing: 5) {
                 HStack {
                     VStack(alignment: .leading) {
                         Text("BALANCE")
                             .font(.system(size: 30, weight: .semibold))
-                            .foregroundStyle(Color.white)
+                            .foregroundStyle(Color.lightGrayShade)
                         Text("\(total)")
                             .font(.system(size: 40, weight: .light))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(nTotal > 0 ? .lightGrayShade: .lightRedShade)
                     }
+                    .padding(.leading, 5)
                     Spacer()
                 }
-                .padding(.top)
+                .padding(.top, 5)
+                Rectangle()
+                    .fill(Color(uiColor: .black))
+                    .frame(height: 0.4)
+                    
                 HStack(spacing: 40) {
                     VStack(alignment: .leading) {
                         Text("Expense")
-                            .font(.system(size: 15, weight: .semibold))
-                            .foregroundStyle(.white)
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundStyle(.lightRedShade)
                         Text("\(expense)")
-                            .font(.system(size: 15, weight: .regular))
-                            .foregroundStyle(.white)
+                            .font(.system(size: 25, weight: .regular))
+                            .foregroundStyle(.lightRedShade)
                     }
                     VStack(alignment: .leading) {
                         Text("Income")
-                            .font(.system(size: 15, weight: .semibold))
-                            .foregroundStyle(.white)
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundStyle(.lightBlueShade)
                         Text("\(income)")
-                            .font(.system(size: 15, weight: .regular))
-                            .foregroundStyle(.white)
+                            .font(.system(size: 25, weight: .regular))
+                            .foregroundStyle(.lightBlueShade)
                     }
                 }
                 Spacer()
