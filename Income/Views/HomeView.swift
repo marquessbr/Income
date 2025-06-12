@@ -9,11 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     
-    @State private var transactions: [Transaction] = [
-        Transaction(title: "Apple", type: .expense, amount: 5.00, date: Date()),
-        Transaction(title: "Bananas", type: .income, amount: 10.00, date: Date()),
-        Transaction(title: "Bananas", type: .expense, amount: 10.00, date: Date()),
-    ]
+    @State private var transactions: [Transaction] = []
     @State private var showAddTransactionView: Bool = false
     @State private var transaction: Transaction?
     @State private var transactionToEdit: Transaction?
@@ -159,6 +155,6 @@ struct HomeView: View {
     }
 }
 
-#Preview {
-    HomeView()
-}
+//#Preview {
+//    HomeView()
+//}
