@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		474E0FE92DF8DCF400FD3547 /* Income.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Income.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		475D71732E06C0A100598C2F /* Income.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Income.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -33,7 +33,7 @@
 			isa = PBXGroup;
 			children = (
 				474E0FCB2DF6E96F00FD3547 /* Income */,
-				474E0FE92DF8DCF400FD3547 /* Income.app */,
+				475D71732E06C0A100598C2F /* Income.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -59,7 +59,7 @@
 			packageProductDependencies = (
 			);
 			productName = Income;
-			productReference = 474E0FE92DF8DCF400FD3547 /* Income.app */;
+			productReference = 475D71732E06C0A100598C2F /* Income.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */

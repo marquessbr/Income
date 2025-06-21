@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct Transaction: Identifiable, Hashable {
     let id = UUID()
@@ -13,13 +14,15 @@ struct Transaction: Identifiable, Hashable {
     let type: TransactionType
     let amount: Double
     let date: Date
+    
     var displayDate: String {
         return DateFormatter.localizedString(from: date, dateStyle: .short, timeStyle: .none)
     }
-    var displayAmount: String {
+    
+    func displayAmount(currency: Currency) -> String {
         let numberFormat = NumberFormatter()
         numberFormat.numberStyle = .currency
-        numberFormat.maximumFractionDigits = 2
+        numberFormat.locale = currency.locale
         return numberFormat.string(from: amount as NSNumber) ?? ""
     }
 }
